@@ -1,0 +1,122 @@
+
+
+drop table if exists device;
+
+drop table if exists devicereceive;
+
+drop table if exists devicerepair;
+
+drop table if exists devicesout;
+
+drop table if exists devicetype;
+
+
+create table device
+(
+   did                  int not null auto_increment,
+   dtid                 int comment '设备类型id',
+   oid                  int,
+   code                 varchar(7) comment '设备流水号',
+   residual             decimal(16,2) comment '净残值',
+   original             decimal(16,2) comment '原值',
+   status               decimal(2,0) comment '状态 1-入库、2-出库中、3-出库、4-领用、5-报修',
+   proddate             date comment '生产日期',
+   creator              varchar(50) comment '登记人',
+   createtime           datetime comment '登记时间',
+   buyer                varchar(50) comment '购买人',
+   bugdate              date comment '购买日期',
+   sno                  varchar(32) comment '序列号',
+   crtm                 datetime comment '创建时间',
+   mdtm                 datetime comment '修改时间',
+   primary key (did)
+);
+
+alter table device comment '设备明细';
+
+
+create table devicereceive
+(
+   id                   int not null auto_increment,
+   did                  int comment '设备id',
+   code                 varchar(9) comment '单据号',
+   recipients           varchar(32) comment '领用人',
+   receivedate          datetime comment '领取时间',
+   returndate           datetime comment '归还日期',
+   status               decimal(2) comment '状态 1-领用、2-归还',
+   rcremarks            varchar(200) comment '领用备注',
+   rtremarks            varchar(200) comment '归还备注',
+   crtm                 datetime comment '创建时间',
+   mdtm                 datetime comment '修改时间',
+   primary key (id)
+);
+
+alter table devicereceive comment '设备领用表';
+
+create table devicerepair
+(
+   id                   int not null auto_increment,
+   did                  int comment '设备id',
+   damager              varchar(50) comment '报修人',
+   damagedate           datetime comment '报修时间',
+   damageremarks        varchar(200) comment '报修备注',
+   repairdate           datetime comment '维修时间',
+   repairer             varchar(50) comment '维修人',
+   repairremarks        varchar(200) comment '维修备注',
+   status               decimal(1,0) comment '状态 1-报修、2-维修',
+   crtm                 datetime comment '创建时间',
+   mdtm                 datetime comment '修改时间',
+   primary key (id)
+);
+
+alter table devicerepair comment '设备维修表';
+
+
+create table devicesout
+(
+   id                   int not null auto_increment,
+   did                  int comment '设备id',
+   outter               varchar(50) comment '报废人',
+   outdate              datetime comment '报废日期',
+   remarks              varchar(200) comment '备注',
+   status               decimal(1,0) comment '状态 1-申请、2-准许、3-拒绝',
+   approver             varchar(50) comment '审批人',
+   approvalremarks      varchar(200) comment '审批意见',
+   approvaldate         datetime comment '审批日期',
+   crtm                 datetime comment '创建时间',
+   mdtm                 datetime comment '修改时间',
+   primary key (id)
+);
+
+alter table devicesout comment '设备出库';
+
+
+create table devicetype
+(
+   dtid                 int not null auto_increment,
+   name                 varchar(50) comment '名字',
+   brand                varchar(100) comment '品牌',
+   intlcode             varchar(100) comment '国际编号',
+   model                varchar(100) comment '型号',
+   remarks              varchar(200) comment '备注',
+   asl                  decimal(3) comment '使用年限',
+   anrv                 decimal(5,3) comment '预计净残值',
+   crtm                 varchar(32) comment '创建时间',
+   mdtm                 varchar(32) comment '修改时间',
+   primary key (dtid)
+);
+
+alter table devicetype comment '设备类型';
+
+alter table device add constraint FK_Reference_5 foreign key (dtid)
+      references devicetype (dtid) on delete restrict on update restrict;
+
+alter table device add constraint FK_Reference_6 foreign key (oid)
+      references organization (oid) on delete restrict on update restrict;
+
+
+
+
+
+        
+
+

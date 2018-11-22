@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<!--     
+    namespace：必须与对应的接口全类名一致  UserMapper.java  
+    id ：必须与对应接口的某个对应的方法名一致即必须要和UserMapper.java接口中的方法同名。  
+ -->    
+ <mapper namespace="com.assets.dao.booksreceiveMapper">  
+	    <insert id="save" parameterType="booksreceive">  
+			INSERT INTO booksreceive(did, code,recipients, receivedate,returndate,status,rcremarks,rtremarks,crtm,mdtm) 
+			VALUES (#{did}, #{code}, #{recipients}, #{ receivedate}, #{returndate}, #{status}, #{rcremarks}, #{rtremarks}, #{crtm}, #{mdtm});       
+	    </insert>  
+	      
+	    <update id="update" parameterType="booksreceive">     
+	   		update booksreceive set did=#{did}, 
+	   		code=#{code},
+	   		recipients=#{recipients},
+	   		receivedate=#{receivedate},
+	   		returndate =#{returndate },
+	   		status=#{status}, 
+	   		rcremarks =#{ rcremarks },
+	   		rtremarks=#{rtremarks},
+	   		crtm=#{crtm},
+	   		mdtm=#{mdtm}
+	   		where id =#{id }     
+	    </update>   
+	      
+	    <delete id="delete" parameterType="int">    
+	        delete from booksreceive where id =#{id } and status!=1
+	    </delete>    
+	     
+	    
+	    
+	     <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路径 -->      
+	    <select id="findById" parameterType="int" resultType="booksreceive">    
+	        select * from booksreceive where id = #{id } 
+	    </select>    
+	    
+     <select id="getbooksAll"  parameterType="int" resultType="books">
+        select books.code,books.did,bookstype.name from books,bookstype 
+		where books.dtid=bookstype.dtid and books.status=1
+		<if test="_parameter!=1">
+           and  oid = #{_parameter}
+         </if>
+     </select>
+     
+     <select id="findAll" parameterType="int" resultType="booksreceive">
+        select booksreceive.*,books.code as code_S,bookstype.name from books,bookstype,booksreceive 
+		where books.dtid=bookstype.dtid and books.did=booksreceive.did
+		<if test="_parameter!=1">
+           and  oid = #{_parameter}
+         </if>
+     </select>
+     <update id="setStatus" parameterType="booksreceive">
+         update books set status=#{status} where did= #{did} 
+     </update>
+     
+     
+      <update id="setreurn" parameterType="booksreceive">
+         update booksreceive set 
+         returndate=#{returndate}
+         ,status=2 
+         ,rtremarks=#{rtremarks}    
+         where id= #{id}
+     </update>
+ </mapper>  

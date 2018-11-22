@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<!--     
+    namespace：必须与对应的接口全类名一致  UserMapper.java  
+    id ：必须与对应接口的某个对应的方法名一致即必须要和UserMapper.java接口中的方法同名。  
+ -->    
+ <mapper namespace="com.assets.dao.landoutMapper">  
+    <update id="update" parameterType="landout">     
+   		update landout set 
+   		did=#{did},
+   		outter=#{outter}, 
+   		applyer=#{applyer},
+   		remarks=#{remarks},
+   		status=#{status},
+   		approver =#{approver },
+   		approvalremarks=#{approvalremarks}, 
+   		approvaldate =#{ approvaldate },
+   		crtm=#{crtm},
+   		mdtm=#{mdtm}
+   		where id =#{id }     
+    </update> 
+      
+     <update id="setStatus" parameterType="landout">     
+   		update land set 
+   		status=#{status}
+   		where did =#{did }     
+    </update>   
+     
+     
+    <select id="findById" parameterType="int" resultType="landout">    
+     select landout.*,land.landarea,land.landcode,land.landlaction from land,landout where land.did=landout.did
+		and landout.id=#{id }  
+    </select>    
+    
+    <select id="findAll" parameterType="int" resultType="landout">    
+      select landout.*,land.landarea,land.landcode,land.landlaction from land,landout where land.did=landout.did  and landout.status=1
+		<if test="_parameter!=1">
+           and  oid = #{_parameter}
+         </if>
+    </select> 
+    
+    
+    
+   
+ </mapper>  

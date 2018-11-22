@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"      
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<!--     
+    namespace：必须与对应的接口全类名一致  UserMapper.java  
+    id ：必须与对应接口的某个对应的方法名一致即必须要和UserMapper.java接口中的方法同名。  
+ -->    
+ <mapper namespace="com.assets.dao.landMapper">  
+   
+    <insert id="save" parameterType="land">  
+		INSERT INTO land(oid,landcode, landlaction,landArea,status,creator,crtm,mdtm) 
+		VALUES (#{oid}, #{landcode}, #{ landlaction}, #{landarea}, #{status}, #{creator},#{crtm}, #{mdtm});       
+    </insert>  
+      
+    <update id="update" parameterType="land">     
+   		update land set 
+   		oid=#{oid}, 
+   		landcode=#{landcode},
+   		landlaction=#{landlaction},
+   		landarea=#{landarea},
+   		status =#{status },
+   		creator=#{creator}, 
+   		crtm=#{crtm},
+   		mdtm=#{mdtm}
+   		where did =#{did }     
+    </update>   
+      
+    <delete id="delete" parameterType="int">    
+        delete from land where did =#{did }  and status=1
+    </delete>    
+        
+     <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路径 -->      
+    <select id="findById" parameterType="int" resultType="land">    
+        select * from land where did =#{did }  
+    </select>    
+        
+    <select id="findAll" parameterType="int" resultType="land">    
+         select * from land  
+         <if test="_parameter!=1">
+           where  oid = #{_parameter}
+         </if>
+    </select>   
+    
+     <select id="getOrganfindAll"  parameterType="int"  resultType="Organ">    
+        select * from organization   
+        <if test="_parameter!=1">
+          where oid = #{_parameter}
+         </if>	 
+     </select>   
+     
+      <select id="findUserAll" parameterType="int"  resultType="User">    
+       select user.* from user
+    	<if test="_parameter!=1">
+           where user.oid = #{_parameter}
+         </if>
+    </select> 
+    
+     <insert id="savaout" parameterType="landout">    
+        INSERT INTO landout(did, outter,remarks, status,applyer,crtm,mdtm) 
+        VALUES (#{did}, #{outter},#{remarks},#{status},#{applyer},#{crtm},#{mdtm})
+    </insert> 
+ </mapper>  

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<!--     
+    namespace：必须与对应的接口全类名一致  UserMapper.java  
+    id ：必须与对应接口的某个对应的方法名一致即必须要和UserMapper.java接口中的方法同名。  
+ -->    
+ <mapper namespace="com.assets.dao.UserMapper">  
+   
+    <insert id="save" parameterType="User">  
+		INSERT INTO user(roleid, oid, name, pwd, sex, birth, phone, email, logintime, loginip,crtm, mdtm) VALUES (#{roleid}, #{oid}, #{name}, #{pwd}, #{sex}, #{birth}, #{phone}, #{email}, #{logintime}, #{loginip},#{crtm}, #{mdtm});       
+    </insert>  
+      
+    <update id="update" parameterType="User">     
+   update user set roleid=#{roleid}, oid=#{oid}, name=#{name}, pwd=#{pwd}, sex=#{sex}, birth=#{birth}, phone=#{phone}, email=#{email}, logintime=#{logintime}, loginip=#{loginip},crtm=#{crtm}, mdtm=#{mdtm} where id=#{id}     
+    </update>   
+      
+    <delete id="delete" parameterType="int">    
+        delete from user where id=#{id}    
+    </delete>    
+        
+     <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路径 -->      
+    <select id="findById" parameterType="int" resultType="User">    
+          select user.* ,role.name as rolename,organization.name as organname from user,role,organization where user.roleid=role.roleid and user.oid=organization.oid
+			and id=#{id}    
+    </select>    
+        
+    <select id="findAll" parameterType="int"  resultType="User">    
+       select user.* ,role.name as rolename,organization.name as organname from user,role,organization where user.roleid=role.roleid and user.oid=organization.oid
+    	<if test="roleid!=1">
+           and user.id = #{id}
+         </if>
+    </select>   
+    
+    <select id="select" resultType="User" parameterType="User">
+        select user.* ,role.name as rolename,organization.name as organname 
+        from user,role,organization  
+	    <where>
+	      user.roleid=role.roleid and user.oid=organization.oid
+	      <if test="name != null" >
+	        AND user.name = #{name}
+	      </if>
+	      <if test="pwd != null" >
+	        AND user.pwd = #{pwd}
+	      </if>
+	    </where>
+	  </select>
+	  
+     <select id="findRoleALL" resultType="Role">    
+        select * from role    
+    </select>   
+    
+     <select id="select_name" resultType="User" parameterType="User">
+        select user.* ,role.name as rolename,organization.name as organname 
+        from user,role,organization  
+	    <where>
+	      user.roleid=role.roleid and user.oid=organization.oid
+	      <if test="name != null" >
+	        AND user.name like CONCAT(CONCAT('%',#{name},'%'))
+	      </if>
+	      <if test="roleid!=1">
+           and user.id = #{id}
+         </if>
+	    </where>
+	  </select>
+	  
+      <select id="findOrganALL" resultType="Organ">    
+        select * from organization    
+    </select>   
+        <select id="getpowerById" parameterType="int" resultType="Role">    
+      select role.* ,GROUP_CONCAT(action.actionname) as jurisdiction from role,role_action,action where role.roleid=role_action.roleid and action.action=role_action.action and role.roleid=#{roleid} group by role.roleid
+    </select>    
+ </mapper>  

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<!--     
+    namespace：必须与对应的接口全类名一致  UserMapper.java  
+    id ：必须与对应接口的某个对应的方法名一致即必须要和UserMapper.java接口中的方法同名。  
+ -->    
+ <mapper namespace="com.assets.dao.booksoutMapper">  
+    <update id="update" parameterType="booksout">     
+   		update bookssout set 
+   		did=#{did},
+   		outter=#{outter}, 
+   		outdate=#{outdate},
+   		remarks=#{remarks},
+   		status=#{status},
+   		approver =#{approver },
+   		approvalremarks=#{approvalremarks}, 
+   		approvaldate =#{ approvaldate },
+   		crtm=#{crtm},
+   		mdtm=#{mdtm}
+   		where id =#{id }     
+    </update> 
+      
+     <update id="setStatus" parameterType="booksout">     
+   		update books set 
+   		status=#{status}
+   		where did =#{did }     
+    </update>   
+     
+     
+    <select id="findById" parameterType="int" resultType="booksout">    
+        select bookssout.*,books.code,bookstype.name from bookssout,books,bookstype 
+		where books.did=bookssout.did  and bookstype.dtid=books.dtid  and bookssout.status=1
+		and bookssout.id=#{id }  
+    </select>    
+        
+     <select id="getAll_record"  parameterType="int" resultType="booksout">    
+         select bookssout.*,books.code,bookstype.name from bookssout,books,bookstype 
+			where books.did=bookssout.did  and bookstype.dtid=books.dtid 
+			<if test="oid != 1">
+	           and  oid = #{oid}
+	        </if>
+			<if test="status==1 ">
+			    and bookssout.status!=1
+			</if>
+			 
+			<if test="status==2 ">
+			    and bookssout.status=2
+			</if>
+			<if test=" status==3 ">
+			    and bookssout.status=3
+			</if>
+    </select> 
+    
+    <select id="findAll" resultType="booksout">    
+         select bookssout.*,books.code,bookstype.name from bookssout,books,bookstype 
+			where books.did=bookssout.did  and bookstype.dtid=books.dtid  and bookssout.status=1
+		<if test="_parameter!=1">
+           and  oid = #{_parameter}
+         </if>
+    </select> 
+      
+     <select id="select_code" resultType="booksout" parameterType="booksout">
+        select bookssout.*,books.code,bookstype.name from bookssout,books,bookstype 
+			where books.did=bookssout.did  and bookstype.dtid=books.dtid  and bookssout.status=1 
+		<if test="oid!=1">
+           and  oid = #{oid}
+         </if>	
+	      <if test=" code  != null" >
+	       and  books.code like CONCAT(CONCAT('%',#{ code },'%'))
+	      </if>
+	  </select>
+    
+    
+    
+   
+ </mapper>  

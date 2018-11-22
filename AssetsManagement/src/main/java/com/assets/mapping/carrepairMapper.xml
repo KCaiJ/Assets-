@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<!--     
+    namespace：必须与对应的接口全类名一致  UserMapper.java  
+    id ：必须与对应接口的某个对应的方法名一致即必须要和UserMapper.java接口中的方法同名。  
+ -->    
+ <mapper namespace="com.assets.dao.carrepairMapper">  
+	    <insert id="save" parameterType="carrepair">  
+			INSERT INTO carrepair(did, damager,damagedate, damageremarks,repairdate,repairer,repairremarks,status,crtm,mdtm) 
+			VALUES (#{did}, #{damager}, #{damagedate}, #{ damageremarks}, #{repairdate}, #{repairer}, #{repairremarks}, #{status}, #{crtm}, #{mdtm});       
+	    </insert>  
+	      
+	    <update id="update" parameterType="carrepair">     
+	   		update carrepair set
+	   		did=#{did}, 
+	   		damager=#{damager},
+	   		damagedate=#{damagedate},
+	   		damageremarks=#{damageremarks},
+	   		repairdate =#{repairdate },
+	   		repairer=#{repairer}, 
+	   		repairremarks =#{ repairremarks },
+	   		status=#{status},
+	   		crtm=#{crtm},
+	   		mdtm=#{mdtm}
+	   		where id =#{id }     
+	    </update>   
+	      
+	    <delete id="delete" parameterType="int">    
+	        delete from carrepair where id =#{id } and status!=1
+	    </delete>    
+	     
+	    
+	    
+	     <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路径 -->      
+	    <select id="findById" parameterType="int" resultType="carrepair">    
+	        select * from carrepair where id = #{id } 
+	    </select>    
+	    
+     <select id="getcarAll"  parameterType="int" resultType="car">
+        select car.code,car.did,cartype.name from car,cartype 
+		where car.dtid=cartype.dtid and car.status=1
+		<if test="_parameter!=1">
+           and  oid = #{_parameter}
+         </if>
+     </select>
+     
+     <select id="findAll" parameterType="int" resultType="carrepair">
+        select carrepair.*,car.code as code_S,cartype.name from car,cartype,carrepair 
+		where car.dtid=cartype.dtid and car.did=carrepair.did
+		<if test="_parameter!=1">
+           and  oid = #{_parameter}
+         </if>
+     </select>
+     <update id="setStatus" parameterType="carrepair">
+         update car set status=#{status} where did= #{did} 
+     </update>
+     
+     
+      <update id="setreurn" parameterType="carrepair">
+         update carrepair set 
+         repairdate=#{repairdate}
+         ,repairer=#{repairer}
+         ,status=#{status} 
+         ,repairremarks=#{repairremarks}    
+         where id= #{id}
+     </update>
+ </mapper>  

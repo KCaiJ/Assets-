@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<!--     
+    namespace：必须与对应的接口全类名一致  UserMapper.java  
+    id ：必须与对应接口的某个对应的方法名一致即必须要和UserMapper.java接口中的方法同名。  
+ -->    
+ <mapper namespace="com.assets.dao.RoleMapper">  
+     <insert id="savepower" parameterType="RoleAction">
+         INSERT INTO role_action( roleid, action) VALUES ( #{roleid}, #{action}) ; 
+         
+     </insert>
+   	<select id="maxid" resultType="int">
+   	    SELECT LAST_INSERT_ID();
+   	</select>
+     
+    <insert id="save" parameterType="Role">  
+		INSERT INTO role( name, remarks,crtm, mdtm) VALUES ( #{name}, #{remarks},#{crtm}, #{mdtm}) ;       
+    </insert>  
+      
+    <update id="update" parameterType="Role">     
+   update role set name=#{name},remarks=#{remarks},crtm=#{crtm}, mdtm=#{mdtm} where roleid=#{roleid}     
+    </update>   
+      
+    <delete id="delete_power" parameterType="int">    
+        delete from role_action where roleid=#{roleid}   
+    </delete>   
+    <delete id="delete" parameterType="int">    
+        delete from role where roleid=#{roleid}   
+    </delete>    
+        
+     <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路径 -->      
+    <select id="findById" parameterType="int" resultType="Role">    
+      select role.* ,GROUP_CONCAT(action.actionname) as jurisdiction from role,role_action,action where role.roleid=role_action.roleid and action.action=role_action.action and role.roleid=#{roleid} group by role.roleid
+    </select>    
+        
+    <select id="findAll" parameterType="int"  resultType="Role">    
+       select role.* ,GROUP_CONCAT(action.actionname) as jurisdiction from role,role_action,action where role.roleid=role_action.roleid and action.action=role_action.action  
+       <if test="_parameter!=1">
+           and  role.roleid = #{_parameter}
+       </if>
+       group by role.roleid
+    </select>   
+    
+    <select id="select" resultType="Role" parameterType="Role">
+        select role.* ,GROUP_CONCAT(action.actionname) as jurisdiction from role,role_action,action where role.roleid=role_action.roleid and action.action=role_action.action 
+         <if test="name != null" >
+	       and name like CONCAT(CONCAT('%',#{name},'%'))
+	      </if>
+	      <if test="roleid!=1">
+           and  role.roleid = #{roleid}
+         </if>
+         group by role.roleid
+	  </select>
+ </mapper>  

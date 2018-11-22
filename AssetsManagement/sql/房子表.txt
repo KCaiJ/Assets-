@@ -1,0 +1,30 @@
+create table house
+(
+   did                  int not null auto_increment,
+   oid                  int,
+   housecode             varchar(100) comment '房子代号',
+   houselaction varchar(255)  comment  '地理位置',
+   housearea varchar(50)  comment '占地面积',
+   status               decimal(1,0) comment '状态 1 空闲 2分配中 3 已分配',
+   creator              varchar(50) comment '登记人',
+   crtm                  varchar(50) comment '创建时间',
+   mdtm                  varchar(50)  comment '修改时间',
+   primary key (did),
+   FOREIGN KEY (oid) REFERENCES organization (oid)
+);
+
+create table houseout
+(
+   id                   int not null auto_increment,
+   did                  int comment '房子id',
+   outter               varchar(50) comment '申请人',
+   applyer              varchar(50) comment '被分配人',
+   remarks              varchar(200) comment '备注',
+   status               decimal(1,0) comment '状态 1-申请、2-准许、3-拒绝',
+   approver             varchar(50) comment '审批人',
+   approvalremarks      varchar(200) comment '审批意见',
+   approvaldate         datetime comment '审批日期',
+   crtm                 datetime comment '创建时间',
+   mdtm                 datetime comment '修改时间',
+   primary key (id)
+);

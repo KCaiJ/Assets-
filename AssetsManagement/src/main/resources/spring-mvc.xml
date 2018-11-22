@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="  
+     http://www.springframework.org/schema/mvc
+     http://www.springframework.org/schema/mvc/spring-mvc.xsd
+     http://www.springframework.org/schema/beans   
+     http://www.springframework.org/schema/beans/spring-beans-4.3.xsd  
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-4.3.xsd" 
+	 >
+	
+	
+    <!-- 启用spring mvc 注解 -->
+    <context:annotation-config />
+    
+	
+    <!-- 设置使用注解的类所在的jar包，需修改controller，service 包名 -->
+    <context:component-scan base-package="com.assets.controller" />
+     
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">    
+     <property name="defaultEncoding" value="utf-8"></property>    
+     <property name="maxUploadSize" value="5242440"></property>    
+	</bean>
+ 
+    <!-- 完成请求和注解POJO的映射 -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	
+   
+    
+    <!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+        p:prefix="/WEB-INF/page" p:suffix=".jsp" />
+
+    <mvc:interceptors>
+		<mvc:interceptor>
+			<!-- 拦截所有mvc控制器 -->
+			<mvc:mapping path="/**"/>
+			<!-- mvc:exclude-mapping是另外一种拦截，它可以在你后来的测试中对某个页面进行不拦截，这样就不用在
+				LoginInterceptor的preHandler方法里面获取不拦截的请求uri地址了(优选) -->
+			<mvc:exclude-mapping path="/system/login.do" />
+			<bean class="com.assets.Interceptor.LoginInterceptor"></bean>			
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<!-- 拦截所有mvc控制器 -->
+			<mvc:mapping path="/**/*.do"/>
+			<!-- mvc:exclude-mapping是另外一种拦截，它可以在你后来的测试中对某个页面进行不拦截，这样就不用在
+				LoginInterceptor的preHandler方法里面获取不拦截的请求uri地址了(优选) -->
+			<mvc:exclude-mapping path="/system/login.do" />
+			<mvc:exclude-mapping path="/system/logout.do" />
+			<mvc:exclude-mapping path="/system/desktop.do" />
+			<mvc:exclude-mapping path="/system/error.do" />
+			<bean class="com.assets.Interceptor.PermissionInterceptor"></bean>			
+		</mvc:interceptor>
+
+	</mvc:interceptors>
+</beans>

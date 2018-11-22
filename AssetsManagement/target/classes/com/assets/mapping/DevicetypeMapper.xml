@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<!--     
+    namespace：必须与对应的接口全类名一致  UserMapper.java  
+    id ：必须与对应接口的某个对应的方法名一致即必须要和UserMapper.java接口中的方法同名。  
+ -->    
+ <mapper namespace="com.assets.dao.DevicetypeMapper">  
+   
+    <insert id="save" parameterType="Devicetype">  
+		INSERT INTO devicetype(name, brand,intlcode, model,remarks,asl,anrv,crtm,mdtm) 
+		VALUES ( #{name},#{brand},#{intlcode},#{model},#{remarks},#{asl},#{anrv},#{crtm},#{mdtm});       
+    </insert>  
+      
+    <update id="update" parameterType="Devicetype">     
+   		update devicetype set name=#{name}, brand=#{brand},intlcode=#{intlcode}, model=#{model},remarks=#{remarks},asl=#{asl},anrv=#{anrv},crtm=#{crtm},mdtm=#{mdtm}
+   		where dtid =#{dtid }     
+    </update>   
+      
+    <delete id="delete" parameterType="int">    
+        delete from devicetype where dtid =#{dtid }  
+    </delete>    
+        
+     <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路径 -->      
+    <select id="findById" parameterType="int" resultType="Devicetype">    
+        select * from devicetype where dtid =#{dtid }  
+    </select>    
+        
+    <select id="findAll" parameterType="int" resultType="Devicetype">    
+        select devicetype.* from devicetype
+    </select>   
+    
+    <select id="select_brand" resultType="Devicetype" parameterType="Devicetype">
+        select   *
+	    from devicetype
+	    <where>
+	      <if test=" name  != null" >
+	         brand  like CONCAT(CONCAT('%',#{ name },'%'))
+	      </if>
+	    </where>
+	  </select>
+ </mapper>  

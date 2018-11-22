@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<!--     
+    namespace：必须与对应的接口全类名一致  UserMapper.java  
+    id ：必须与对应接口的某个对应的方法名一致即必须要和UserMapper.java接口中的方法同名。  
+ -->    
+ <mapper namespace="com.assets.dao.DeviceMapper">  
+   
+    <insert id="save" parameterType="Device">  
+		INSERT INTO device(dtid, oid,code, residual,original,status,proddate,creator,createtime,buyer,bugdate,sno,crtm,mdtm) 
+		VALUES ( #{dtid}, #{oid}, #{code}, #{ residual}, #{original}, #{status}, #{proddate}, #{creator}, #{createtime}, #{buyer}, #{bugdate}, #{sno}, #{crtm}, #{mdtm});       
+    </insert>  
+      
+    <update id="update" parameterType="Device">     
+   		update device set 
+   		dtid=#{dtid},
+   		oid=#{oid}, 
+   		code=#{code},
+   		residual=#{residual},
+   		original=#{original},
+   		status =#{status },
+   		proddate=#{proddate}, 
+   		creator =#{ creator },
+   		createtime=#{createtime},
+   		buyer=#{buyer},
+   		bugdate=#{bugdate},
+   		crtm=#{crtm},
+   		sno=#{sno},
+   		mdtm=#{mdtm}
+   		where did =#{did }     
+    </update>   
+      
+    <delete id="delete" parameterType="int">    
+        delete from device where did =#{did }  
+    </delete>    
+        
+     <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路径 -->      
+    <select id="findById" parameterType="int" resultType="Device">    
+        select * from device where did =#{did }  
+    </select>    
+        
+    <select id="findAll" parameterType="int" resultType="Device">    
+         select * from device,devicetype where device.dtid=devicetype.dtid 
+         <if test="_parameter!=1">
+           and  oid = #{_parameter}
+         </if>
+    </select>   
+    
+    <select id="select_core" resultType="Device" parameterType="Device">
+        select * from device,devicetype where device.dtid=devicetype.dtid  
+        <if test="oid!=1">
+           and  oid = #{oid}
+         </if>	
+	      <if test=" code  != null" >
+	        And code  like CONCAT(CONCAT('%',#{ code },'%'))
+	      </if>
+	  </select>
+	  
+    <select id="findOrganALL" resultType="Organ">    
+        select * from organization    
+    </select>
+    
+    <select id="findAllDtype" resultType="Devicetype">    
+        select * from devicetype    
+    </select> 
+    
+     <select id="savaout" resultType="Devicetype">    
+        INSERT INTO devicesout(did, outter,remarks, status,outdate,crtm,mdtm) 
+        VALUES (#{did}, #{outter},#{remarks},#{status},#{outdate},#{crtm},#{mdtm})
+    </select> 
+    
+
+     
+ </mapper>  

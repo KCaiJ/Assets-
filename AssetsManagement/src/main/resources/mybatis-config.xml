@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">  
+      
+<configuration>  
+    <!-- 全局别名设置，在映射文件中只需写别名，而不必写出整个类路径   --> 
+    <typeAliases>    
+        <typeAlias alias="User" type="com.assets.model.User" />  
+        <typeAlias alias="Role" type="com.assets.model.Role" />  
+        <typeAlias alias="Organ" type="com.assets.model.Organ" /> 
+        <typeAlias alias="RoleAction" type="com.assets.model.RoleAction" />  
+        <typeAlias alias="DeviceType" type="com.assets.model.Devicetype" />
+        <typeAlias alias="Device" type="com.assets.model.Device" />
+        <typeAlias alias="Deviceout" type="com.assets.model.Deviceout" />
+		<typeAlias alias="Devicereceive" type="com.assets.model.Devicereceive" />
+		<typeAlias alias="Devicerepair" type="com.assets.model.Devicerepair" />
+		
+		<typeAlias alias="carType" type="com.assets.model.cartype" />
+        <typeAlias alias="car" type="com.assets.model.car" />
+        <typeAlias alias="carout" type="com.assets.model.carout" />
+		<typeAlias alias="carreceive" type="com.assets.model.carreceive" />
+		<typeAlias alias="carrepair" type="com.assets.model.carrepair" />
+		
+		
+		<typeAlias alias="booksType" type="com.assets.model.bookstype" />
+        <typeAlias alias="books" type="com.assets.model.books" />
+        <typeAlias alias="booksout" type="com.assets.model.booksout" />
+		<typeAlias alias="booksreceive" type="com.assets.model.booksreceive" />
+		<typeAlias alias="booksrepair" type="com.assets.model.booksrepair" />
+		
+		<typeAlias alias="land" type="com.assets.model.land" />
+		<typeAlias alias="landout" type="com.assets.model.landout" />
+		
+		<typeAlias alias="house" type="com.assets.model.house" />
+		<typeAlias alias="houseout" type="com.assets.model.houseout" />
+		
+    </typeAliases>     
+    <mappers> 
+        
+        <mapper resource="com/assets/mapping/houseMapper.xml" /> 
+        <mapper resource="com/assets/mapping/houseoutMapper.xml" /> 
+        
+        <mapper resource="com/assets/mapping/landMapper.xml" /> 
+        <mapper resource="com/assets/mapping/landoutMapper.xml" /> 
+        
+        <mapper resource="com/assets/mapping/booksrepairMapper.xml" /> 
+		<mapper resource="com/assets/mapping/booksreceiveMapper.xml" /> 
+        <mapper resource="com/assets/mapping/booksoutMapper.xml" /> 
+        <mapper resource="com/assets/mapping/booksMapper.xml" />   
+        <mapper resource="com/assets/mapping/bookstypeMapper.xml" />  
+        
+        
+        <mapper resource="com/assets/mapping/carrepairMapper.xml" /> 
+		<mapper resource="com/assets/mapping/carreceiveMapper.xml" /> 
+        <mapper resource="com/assets/mapping/caroutMapper.xml" /> 
+        <mapper resource="com/assets/mapping/carMapper.xml" />   
+        <mapper resource="com/assets/mapping/cartypeMapper.xml" />   
+        
+        <mapper resource="com/assets/mapping/DevicerepairMapper.xml" /> 
+		<mapper resource="com/assets/mapping/DevicereceiveMapper.xml" /> 
+        <mapper resource="com/assets/mapping/DeviceoutMapper.xml" /> 
+        <mapper resource="com/assets/mapping/DeviceMapper.xml" />   
+        <mapper resource="com/assets/mapping/DevicetypeMapper.xml" />   
+        
+        <mapper resource="com/assets/mapping/UserMapper.xml" />  
+        <mapper resource="com/assets/mapping/RoleMapper.xml" />  
+        <mapper resource="com/assets/mapping/OrganMapper.xml" />  
+    </mappers>
+   
+      
+</configuration> 
