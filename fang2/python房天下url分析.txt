@@ -1,0 +1,20 @@
+1.获取全国城市名链接 
+http://www.fang.com/SoufunFamily.htm
+
+2.获取城市的新房链接
+例  广州    http://gz.fang.com/ 
+   广州新房 http://gz.newhouse.fang.com/house/s/
+
+3.获取城市的二手房链接
+例  广州    http://gz.fang.com/ 
+   广州二手房 http://gz.esf.fang.com/
+
+4.获取城市的租房链接
+例  广州    http://gz.fang.com/ 
+   广州租房 http://gz.zu.fang.com/
+
+北京为例外
+
+北京新房 http://newhouse.fang.com/house/s/
+北京二手房 http://esf.fang.com/
+北京租房   http://zu.fang.com/
