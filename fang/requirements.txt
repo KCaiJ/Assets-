@@ -39,7 +39,7 @@ mysql-connector==2.1.6
 mysql-connector-python==8.0.12
 numpy==1.15.4
 parsel==1.5.1
-Pillow==5.2.0
+Pillow==9.0.1
 protobuf==3.6.1
 psutil==5.4.7
 pyasn1==0.4.4
